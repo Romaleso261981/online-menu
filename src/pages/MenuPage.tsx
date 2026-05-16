@@ -111,7 +111,11 @@ export function MenuPage() {
   return (
     <div className="app app--with-category-bar">
       <div className="site-shell">
-        <SiteHeader title={menu.restaurantName} />
+        <SiteHeader
+          title={menu.restaurantName}
+          cartCount={cart.count}
+          onCartClick={() => setCartOpen(true)}
+        />
 
         <main className="menu-sections">
           {menu.categories.map((category) => (

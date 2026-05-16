@@ -2,9 +2,33 @@ import { SITE_LOGO_URL } from "../utils";
 
 type Props = {
   title: string;
+  cartCount: number;
+  onCartClick: () => void;
 };
 
-export function SiteHeader({ title }: Props) {
+function CartIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path
+        d="M6 6h15l-1.5 9h-12L6 6z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M6 6L5 3H2"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <circle cx="9" cy="20" r="1.5" fill="currentColor" />
+      <circle cx="18" cy="20" r="1.5" fill="currentColor" />
+    </svg>
+  );
+}
+
+export function SiteHeader({ title, cartCount, onCartClick }: Props) {
   return (
     <>
       <header className="site-topbar">
@@ -12,18 +36,22 @@ export function SiteHeader({ title }: Props) {
           <img src={SITE_LOGO_URL} alt="" className="site-topbar__logo" />
           <span className="site-topbar__name">{title}</span>
         </div>
-        <div className="site-topbar__actions" aria-hidden>
-          <span className="site-topbar__icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-              <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" />
-              <path
-                d="M20 20L16.5 16.5"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-            </svg>
-          </span>
+        <div className="site-topbar__actions">
+          <button
+            type="button"
+            className="site-topbar__icon site-topbar__cart"
+            onClick={onCartClick}
+            aria-label={
+              cartCount > 0 ? `Кошик, ${cartCount} товарів` : "Кошик"
+            }
+          >
+            <CartIcon />
+            {cartCount > 0 ? (
+              <span className="site-topbar__badge" aria-hidden>
+                {cartCount > 99 ? "99+" : cartCount}
+              </span>
+            ) : null}
+          </button>
           <span className="site-topbar__icon site-topbar__icon--sun">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
               <circle cx="12" cy="12" r="4" fill="currentColor" />
