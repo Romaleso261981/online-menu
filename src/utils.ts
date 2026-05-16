@@ -3,6 +3,15 @@ import type { Category, MenuData, Product } from "./types";
 export const PIZZA_IMAGE_URL =
   "/images/607ed818-b82d-4252-bb46-1dd1ce303ee6_image.webp";
 
+export const ONIGIRI_IMAGE_URL =
+  "/images/55e0c511-bef1-495b-b898-92339b879525_image.webp";
+
+export const MAKI_IMAGE_URL =
+  "/images/70fc18c0-dfb2-4184-88d5-07113ec18298_image.webp";
+
+export const PHILADELPHIA_IMAGE_URL =
+  "/images/889213_1668018973.8619_original.webp";
+
 export function formatPrice(amount: number, currency = "₴"): string {
   return `${amount.toLocaleString("uk-UA")} ${currency}`;
 }
@@ -16,12 +25,62 @@ export function isPizzaCategory(category: {
   );
 }
 
+export function isOnigiriCategory(category: {
+  slug: string;
+  title: string;
+}): boolean {
+  return (
+    category.slug.includes("онігір") ||
+    /онігірі/i.test(category.title)
+  );
+}
+
+export function isMakiCategory(category: {
+  slug: string;
+  title: string;
+}): boolean {
+  return (
+    category.slug.includes("макі") || /макі\s*рол/i.test(category.title)
+  );
+}
+
+export function isPhiladelphiaCategory(category: {
+  slug: string;
+  title: string;
+}): boolean {
+  return (
+    category.slug.includes("філадельф") ||
+    /філадельфія/i.test(category.title)
+  );
+}
+
+export function hasCategoryImage(category: {
+  slug: string;
+  title: string;
+}): boolean {
+  return (
+    isPizzaCategory(category) ||
+    isOnigiriCategory(category) ||
+    isMakiCategory(category) ||
+    isPhiladelphiaCategory(category)
+  );
+}
+
 export function productImageUrl(
   productId: number,
   category?: { slug: string; title: string }
 ): string {
   if (category && isPizzaCategory(category)) {
     return PIZZA_IMAGE_URL;
+  }
+  if (category && isOnigiriCategory(category)) {
+    return ONIGIRI_IMAGE_URL;
+  }
+  if (category && isMakiCategory(category)) {
+    return MAKI_IMAGE_URL;
+  }
+  if (category && isPhiladelphiaCategory(category)) {
+    return PHILADELPHIA_IMAGE_URL;
   }
   return `https://picsum.photos/seed/menu-${productId}/600/400`;
 }

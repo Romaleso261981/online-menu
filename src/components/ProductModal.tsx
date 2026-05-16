@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import type { Category, Product } from "../types";
 import {
   formatPrice,
-  isPizzaCategory,
+  hasCategoryImage,
   productImageUrl,
   splitProductDescription,
 } from "../utils";
@@ -49,7 +49,7 @@ export function ProductModal({ product, category, onClose, onAdd }: Props) {
 
   if (!product) return null;
 
-  const pizzaImage = category ? isPizzaCategory(category) : false;
+  const customImage = category ? hasCategoryImage(category) : false;
   const imageSrc = productImageUrl(product.id, category ?? undefined);
 
   return (
@@ -67,7 +67,7 @@ export function ProductModal({ product, category, onClose, onAdd }: Props) {
       />
       <div className="modal__sheet">
         <div
-          className={`modal__media${pizzaImage ? " modal__media--contain modal__media--large" : " modal__media--zoomable"}`}
+          className={`modal__media${customImage ? " modal__media--contain modal__media--large" : " modal__media--zoomable"}`}
         >
           <button
             type="button"
