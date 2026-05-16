@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import { CartDrawer } from "../components/CartDrawer";
 import { CategoryNav } from "../components/CategoryNav";
+import { SiteHeader } from "../components/SiteHeader";
 import { ProductCard } from "../components/ProductCard";
 import { ProductModal } from "../components/ProductModal";
 import { useMenu } from "../context/MenuContext";
@@ -11,7 +11,6 @@ import {
   findCategoryForProduct,
   findProduct,
   parseProductHash,
-  SITE_LOGO_URL,
 } from "../utils";
 import "../App.css";
 
@@ -110,53 +109,42 @@ export function MenuPage() {
 
   return (
     <div className="app">
-      <header className="hero">
-        <div className="hero__inner">
-          <img
-            src={SITE_LOGO_URL}
-            alt={menu.restaurantName}
-            className="hero__logo"
+      <div className="site-shell">
+        <SiteHeader title={menu.restaurantName} />
+
+        <div className="sticky-bar">
+          <CategoryNav
+            categories={menu.categories}
+            activeSlug={activeSlug}
+            onSelect={scrollToCategory}
           />
-          <p className="hero__badge">Доставка · онлайн-меню</p>
-          <h1>{menu.restaurantName}</h1>
-          <p className="hero__sub">
-            Оберіть страви, додайте в кошик і оформіть замовлення.
-          </p>
         </div>
-      </header>
 
-      <div className="sticky-bar">
-        <CategoryNav
-          categories={menu.categories}
-          activeSlug={activeSlug}
-          onSelect={scrollToCategory}
-        />
+        <main className="menu-sections">
+          {menu.categories.map((category) => (
+            <section
+              key={category.slug}
+              id={`cat-${category.slug}`}
+              ref={(el) => {
+                sectionRefs.current[category.slug] = el;
+              }}
+              className="menu-section"
+            >
+              <h2>{category.title}</h2>
+              <div className="product-grid">
+                {category.products.map((product) => (
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                    category={category}
+                    onOpen={openProduct}
+                  />
+                ))}
+              </div>
+            </section>
+          ))}
+        </main>
       </div>
-
-      <main className="menu-sections">
-        {menu.categories.map((category) => (
-          <section
-            key={category.slug}
-            id={`cat-${category.slug}`}
-            ref={(el) => {
-              sectionRefs.current[category.slug] = el;
-            }}
-            className="menu-section"
-          >
-            <h2>{category.title}</h2>
-            <div className="product-grid">
-              {category.products.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  category={category}
-                  onOpen={openProduct}
-                />
-              ))}
-            </div>
-          </section>
-        ))}
-      </main>
 
       <ProductModal
         product={selectedProduct}
@@ -186,10 +174,6 @@ export function MenuPage() {
           </strong>
         </button>
       ) : null}
-
-      <Link to="/admin" className="menu-admin-link">
-        Адмінка
-      </Link>
     </div>
   );
 }
