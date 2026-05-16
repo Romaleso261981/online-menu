@@ -244,48 +244,79 @@
   min-height: 100px;
 }
 
-.admin-edit-modal__category-picker h3 {
-  margin: 0 0 6px;
-  font-size: 1rem;
+.category-dropdown {
+  position: relative;
+  margin-bottom: 12px;
 }
 
-.admin-edit-modal__category-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  max-height: 200px;
-  overflow: auto;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: var(--bg);
+.category-dropdown__label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
 }
 
-.admin-edit-modal__category-item {
+.category-dropdown__trigger {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
   width: 100%;
   padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.category-dropdown__trigger span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.category-dropdown__chevron {
+  flex-shrink: 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.category-dropdown__menu {
+  position: absolute;
+  z-index: 5;
+  left: 0;
+  right: 0;
+  top: calc(100% + 4px);
+  list-style: none;
+  margin: 0;
+  padding: 4px;
+  max-height: 220px;
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.category-dropdown__option {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
   border: 0;
-  border-bottom: 1px solid var(--border);
+  border-radius: 8px;
   background: transparent;
   font: inherit;
   text-align: left;
   cursor: pointer;
 }
 
-.admin-edit-modal__category-list li:last-child .admin-edit-modal__category-item {
-  border-bottom: 0;
+.category-dropdown__option:hover {
+  background: var(--bg);
 }
 
-.admin-edit-modal__category-item span {
-  font-size: 0.75rem;
-  color: var(--muted);
-  font-weight: 600;
-}
-
-.admin-edit-modal__category-item.is-active {
+.category-dropdown__option.is-active {
   background: var(--accent-soft);
   font-weight: 700;
   color: var(--accent-dark);

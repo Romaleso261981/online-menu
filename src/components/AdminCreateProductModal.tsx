@@ -1,5 +1,6 @@
 import { useEffect, useId, useState } from "react";
 import type { Category, Product } from "../types";
+import { CategoryPickerDropdown } from "./CategoryPickerDropdown";
 import { formatPrice, productImageUrl } from "../utils";
 
 type Props = {
@@ -103,29 +104,12 @@ export function AdminCreateProductModal({
             Заповніть поля та натисніть «Створити картку».
           </p>
 
-          <section className="admin-edit-modal__category-picker">
-            <h3>Категорія</h3>
-            <ul className="admin-edit-modal__category-list" role="listbox">
-              {categories.map((c) => (
-                <li key={c.slug}>
-                  <button
-                    type="button"
-                    role="option"
-                    aria-selected={c.slug === categorySlug}
-                    className={
-                      c.slug === categorySlug
-                        ? "admin-edit-modal__category-item is-active"
-                        : "admin-edit-modal__category-item"
-                    }
-                    onClick={() => setCategorySlug(c.slug)}
-                  >
-                    {c.title}
-                    <span>{c.products.length} поз.</span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </section>
+          <CategoryPickerDropdown
+            label="Категорія"
+            categories={categories}
+            value={categorySlug}
+            onChange={setCategorySlug}
+          />
 
           <fieldset className="admin-edit-modal__new-category">
             <legend>Або нова категорія</legend>

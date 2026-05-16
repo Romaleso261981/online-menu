@@ -1,5 +1,6 @@
 import { useEffect, useId, useState } from "react";
 import type { Category, Product } from "../types";
+import { CategoryPickerDropdown } from "./CategoryPickerDropdown";
 import { formatPrice, productImageUrl } from "../utils";
 
 type Props = {
@@ -67,32 +68,15 @@ export function AdminProductEditModal({
           <h2>Редагування</h2>
           <p className="admin-edit-modal__hint">Товар ID {product.id}</p>
 
-          <section className="admin-edit-modal__category-picker">
-            <h3>Категорія товару</h3>
-            <p className="admin-edit-modal__hint">
-              Оберіть існуючу категорію — товар переміститься одразу.
-            </p>
-            <ul className="admin-edit-modal__category-list" role="listbox">
-              {categories.map((c) => (
-                <li key={c.slug}>
-                  <button
-                    type="button"
-                    role="option"
-                    aria-selected={c.slug === category.slug}
-                    className={
-                      c.slug === category.slug
-                        ? "admin-edit-modal__category-item is-active"
-                        : "admin-edit-modal__category-item"
-                    }
-                    onClick={() => onMoveProduct(c.slug)}
-                  >
-                    {c.title}
-                    <span>{c.products.length} поз.</span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </section>
+          <CategoryPickerDropdown
+            label="Категорія товару"
+            categories={categories}
+            value={category.slug}
+            onChange={onMoveProduct}
+          />
+          <p className="admin-edit-modal__hint">
+            Після вибору іншої категорії товар переміститься одразу.
+          </p>
 
           <fieldset className="admin-edit-modal__new-category">
             <legend>Нова категорія</legend>
