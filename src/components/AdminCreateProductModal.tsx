@@ -142,14 +142,6 @@ export function AdminCreateProductModal({
               }}
             />
           </label>
-          <label>
-            URL зображення (необовʼязково)
-            <input
-              value={image ?? ""}
-              placeholder="/images/..."
-              onChange={(e) => setImage(e.target.value || undefined)}
-            />
-          </label>
 
           <label>
             Назва

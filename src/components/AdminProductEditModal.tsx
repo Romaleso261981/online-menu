@@ -155,17 +155,7 @@ export function AdminProductEditModal({
               />
             </label>
             <label>
-              Фото категорії (URL)
-              <input
-                value={category.image ?? ""}
-                placeholder="/images/..."
-                onChange={(e) =>
-                  onUpdateCategory({ image: e.target.value || undefined })
-                }
-              />
-            </label>
-            <label>
-              Завантажити фото категорії
+              Фото категорії
               <input
                 type="file"
                 accept="image/*"
@@ -218,33 +208,6 @@ export function AdminProductEditModal({
               rows={5}
               value={product.description}
               onChange={(e) => onUpdateProduct({ description: e.target.value })}
-            />
-          </label>
-          <label>
-            Фото товару (URL)
-            <input
-              value={product.image ?? ""}
-              placeholder="/images/..."
-              onChange={(e) =>
-                onUpdateProduct({ image: e.target.value || undefined })
-              }
-            />
-          </label>
-          <label>
-            Завантажити фото товару
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => {
-                const f = e.target.files?.[0];
-                if (!f) return;
-                void onReadImage(f)
-                  .then((url) => onUpdateProduct({ image: url }))
-                  .catch((err) =>
-                    onError(err instanceof Error ? err.message : "Помилка")
-                  );
-                e.target.value = "";
-              }}
             />
           </label>
           <button
