@@ -1,4 +1,41 @@
-import type { Category, MenuData, Product } from "./types";
+import type { CartLine, Category, MenuData, Product } from "./types";
+
+export const TABLE_STORAGE_KEY = "online-menu-table";
+
+export function normalizeTableId(raw: string | null | undefined): string | null {
+  const t = raw?.trim();
+  return t ? t : null;
+}
+
+export function formatTableLabel(tableId: string): string {
+  if (/^(столик|стіл)\s*/i.test(tableId)) return tableId;
+  return `Столик №${tableId}`;
+}
+
+export function buildMenuUrl(baseUrl: string, tableId: string | null): string {
+  const url = new URL(baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`);
+  const id = normalizeTableId(tableId);
+  if (id) url.searchParams.set("table", id);
+  return url.toString();
+}
+
+export function formatOrderMessage(
+  lines: CartLine[],
+  total: number,
+  tableId: string | null
+): string {
+  const parts: string[] = ["Замовлення з онлайн-меню"];
+  if (tableId) parts.push(formatTableLabel(tableId));
+  parts.push("");
+  for (const line of lines) {
+    parts.push(
+      `${line.name} × ${line.quantity} — ${formatPrice(line.price * line.quantity)}`
+    );
+  }
+  parts.push("");
+  parts.push(`Разом: ${formatPrice(total)}`);
+  return parts.join("\n");
+}
 
 export const SITE_LOGO_URL =
   "/images/logo/5cad0bc8-8bd4-429e-a7b6-4074d5f5c12b_image.webp";

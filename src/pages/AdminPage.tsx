@@ -275,6 +275,9 @@ export function AdminPage() {
           <Link to="/" className="admin__btn admin__btn--ghost">
             На сайт
           </Link>
+          <Link to="/qr" className="admin__btn admin__btn--ghost">
+            QR столиків
+          </Link>
           <button
             type="button"
             className="admin__btn"

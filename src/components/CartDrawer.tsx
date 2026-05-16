@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import type { CartLine } from "../types";
-import { formatPrice } from "../utils";
+import { formatOrderMessage, formatPrice, formatTableLabel } from "../utils";
 
 type Props = {
   open: boolean;
   lines: CartLine[];
   total: number;
+  tableId: string | null;
   onClose: () => void;
   onQuantity: (productId: number, quantity: number) => void;
   onClear: () => void;
@@ -15,10 +16,25 @@ export function CartDrawer({
   open,
   lines,
   total,
+  tableId,
   onClose,
   onQuantity,
   onClear,
 }: Props) {
+  const handleCheckout = async () => {
+    const text = formatOrderMessage(lines, total, tableId);
+    try {
+      await navigator.clipboard.writeText(text);
+      const tableNote = tableId
+        ? `\n\n${formatTableLabel(tableId)} — збережено в тексті замовлення.`
+        : "";
+      alert(
+        `Замовлення скопійовано в буфер обміну.${tableNote}\n\nВставте повідомлення нам у месенджер або надішліть офіціанту.`
+      );
+    } catch {
+      alert(text);
+    }
+  };
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
@@ -40,7 +56,12 @@ export function CartDrawer({
       <button type="button" className="cart__backdrop" onClick={onClose} aria-label="Закрити" />
       <div className="cart__panel">
         <header className="cart__header">
-          <h2>Кошик</h2>
+          <div className="cart__header-text">
+            <h2>Кошик</h2>
+            {tableId ? (
+              <p className="cart__table">{formatTableLabel(tableId)}</p>
+            ) : null}
+          </div>
           <button
             type="button"
             className="cart__close"
@@ -92,7 +113,7 @@ export function CartDrawer({
             type="button"
             className="btn btn--primary"
             disabled={lines.length === 0}
-            onClick={() => alert("Замовлення оформлюється через ваш канал (телефон / бот).")}
+            onClick={() => void handleCheckout()}
           >
             Оформити замовлення
           </button>

@@ -7,10 +7,12 @@ import { ProductCard } from "../components/ProductCard";
 import { ProductModal } from "../components/ProductModal";
 import { useMenu } from "../context/MenuContext";
 import { useCart } from "../hooks/useCart";
+import { useTableSession } from "../hooks/useTableSession";
 import type { Product } from "../types";
 import {
   findCategoryForProduct,
   findProduct,
+  formatTableLabel,
   parseProductHash,
 } from "../utils";
 import "../App.css";
@@ -23,6 +25,7 @@ export function MenuPage() {
   const [categoryPickerOpen, setCategoryPickerOpen] = useState(false);
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
   const cart = useCart();
+  const { tableId } = useTableSession();
 
   useEffect(() => {
     if (menu && !activeSlug) {
@@ -118,6 +121,10 @@ export function MenuPage() {
           onCartClick={() => setCartOpen(true)}
         />
 
+        {tableId ? (
+          <p className="menu-table-badge">{formatTableLabel(tableId)}</p>
+        ) : null}
+
         <main className="menu-sections">
           {menu.categories.map((category) => (
             <section
@@ -164,6 +171,7 @@ export function MenuPage() {
         open={cartOpen}
         lines={cart.lines}
         total={cart.total}
+        tableId={tableId}
         onClose={() => setCartOpen(false)}
         onQuantity={cart.setQuantity}
         onClear={cart.clear}
