@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { BackToTop } from "../components/BackToTop";
 import { CartDrawer } from "../components/CartDrawer";
 import { CategoryPicker } from "../components/CategoryPicker";
 import { SiteHeader } from "../components/SiteHeader";
@@ -167,6 +168,8 @@ export function MenuPage() {
         onQuantity={cart.setQuantity}
         onClear={cart.clear}
       />
+
+      <BackToTop raised={cart.count > 0} />
 
       {cart.count > 0 ? (
         <button
