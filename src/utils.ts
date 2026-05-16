@@ -12,6 +12,8 @@ export const MAKI_IMAGE_URL =
 export const PHILADELPHIA_IMAGE_URL =
   "/images/889213_1668018973.8619_original.webp";
 
+export const FIRM_ROLLS_IMAGE_URL = "/images/firmovi-roli.jpeg";
+
 export function formatPrice(amount: number, currency = "₴"): string {
   return `${amount.toLocaleString("uk-UA")} ${currency}`;
 }
@@ -54,6 +56,16 @@ export function isPhiladelphiaCategory(category: {
   );
 }
 
+export function isFirmRollsCategory(category: {
+  slug: string;
+  title: string;
+}): boolean {
+  return (
+    category.slug.includes("фірмові-рол") ||
+    /фірмові\s*рол/i.test(category.title)
+  );
+}
+
 export function hasCategoryImage(category: {
   slug: string;
   title: string;
@@ -62,7 +74,8 @@ export function hasCategoryImage(category: {
     isPizzaCategory(category) ||
     isOnigiriCategory(category) ||
     isMakiCategory(category) ||
-    isPhiladelphiaCategory(category)
+    isPhiladelphiaCategory(category) ||
+    isFirmRollsCategory(category)
   );
 }
 
@@ -81,6 +94,9 @@ export function productImageUrl(
   }
   if (category && isPhiladelphiaCategory(category)) {
     return PHILADELPHIA_IMAGE_URL;
+  }
+  if (category && isFirmRollsCategory(category)) {
+    return FIRM_ROLLS_IMAGE_URL;
   }
   return `https://picsum.photos/seed/menu-${productId}/600/400`;
 }
