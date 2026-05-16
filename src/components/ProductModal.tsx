@@ -6,6 +6,7 @@ import {
   productImageUrl,
   splitProductDescription,
 } from "../utils";
+import { ImageLightbox } from "./ImageLightbox";
 
 type Props = {
   product: Product | null;
@@ -16,6 +17,7 @@ type Props = {
 
 export function ProductModal({ product, category, onClose, onAdd }: Props) {
   const [qty, setQty] = useState(1);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
 
   const descriptionParts = useMemo(
     () =>
@@ -27,12 +29,15 @@ export function ProductModal({ product, category, onClose, onAdd }: Props) {
 
   useEffect(() => {
     setQty(1);
+    setLightboxOpen(false);
   }, [product?.id]);
 
   useEffect(() => {
     if (!product) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key !== "Escape") return;
+      if (lightboxOpen) setLightboxOpen(false);
+      else onClose();
     };
     document.body.style.overflow = "hidden";
     window.addEventListener("keydown", onKey);
@@ -40,11 +45,12 @@ export function ProductModal({ product, category, onClose, onAdd }: Props) {
       document.body.style.overflow = "";
       window.removeEventListener("keydown", onKey);
     };
-  }, [product, onClose]);
+  }, [product, onClose, lightboxOpen]);
 
   if (!product) return null;
 
   const pizzaImage = category ? isPizzaCategory(category) : false;
+  const imageSrc = productImageUrl(product.id, category ?? undefined);
 
   return (
     <div
@@ -61,12 +67,16 @@ export function ProductModal({ product, category, onClose, onAdd }: Props) {
       />
       <div className="modal__sheet">
         <div
-          className={`modal__media${pizzaImage ? " modal__media--contain" : ""}`}
+          className={`modal__media${pizzaImage ? " modal__media--contain modal__media--large" : " modal__media--zoomable"}`}
         >
-          <img
-            src={productImageUrl(product.id, category ?? undefined)}
-            alt=""
-          />
+          <button
+            type="button"
+            className="modal__media-open"
+            onClick={() => setLightboxOpen(true)}
+            aria-label="Відкрити зображення на весь екран"
+          >
+            <img src={imageSrc} alt={product.name} />
+          </button>
           <button
             type="button"
             className="modal__close"
@@ -118,6 +128,13 @@ export function ProductModal({ product, category, onClose, onAdd }: Props) {
           </div>
         </div>
       </div>
+      {lightboxOpen ? (
+        <ImageLightbox
+          src={imageSrc}
+          alt={product.name}
+          onClose={() => setLightboxOpen(false)}
+        />
+      ) : null}
     </div>
   );
 }
