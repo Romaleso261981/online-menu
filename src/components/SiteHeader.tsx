@@ -91,7 +91,7 @@ export function SiteHeader({ title, cartCount, onCartClick }: Props) {
             onClick={toggleTheme}
             aria-label={isDark ? "Увімкнути світлу тему" : "Увімкнути темну тему"}
           >
-            {isDark ? <MoonIcon /> : <SunIcon />}
+            {isDark ? <SunIcon /> : <MoonIcon />}
           </button>
         </div>
       </header>
