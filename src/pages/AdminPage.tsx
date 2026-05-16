@@ -5,7 +5,8 @@ import { CategoryNav } from "../components/CategoryNav";
 import { AdminProductCard } from "../components/AdminProductCard";
 import { useMenu } from "../context/MenuContext";
 import type { Category, MenuData, Product } from "../types";
-import { uniqueCategorySlug } from "../utils";
+import { nextProductId, uniqueCategorySlug } from "../utils";
+import { AdminCreateProductModal } from "../components/AdminCreateProductModal";
 import "../App.css";
 import "../admin.css";
 
@@ -36,6 +37,7 @@ export function AdminPage() {
     useMenu();
   const [activeSlug, setActiveSlug] = useState("");
   const [editing, setEditing] = useState<EditingTarget | null>(null);
+  const [creatingProduct, setCreatingProduct] = useState(false);
   const [status, setStatus] = useState("");
   const [importError, setImportError] = useState("");
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
@@ -183,12 +185,12 @@ export function AdminPage() {
     setImportError("");
   };
 
-  const addEmptyCategory = (title: string) => {
-    if (!menu) return;
+  const addEmptyCategory = (title: string): string => {
+    if (!menu) return "";
     const trimmed = title.trim();
     if (!trimmed) {
       setImportError("Введіть назву нової категорії");
-      return;
+      return "";
     }
     const slug = uniqueCategorySlug(menu.categories, trimmed);
     patchMenu((m) => ({
@@ -197,6 +199,31 @@ export function AdminPage() {
     }));
     setActiveSlug(slug);
     setImportError("");
+    return slug;
+  };
+
+  const createProduct = (categorySlug: string, draft: Product) => {
+    if (!menu) return;
+    const id = nextProductId(menu);
+    const product: Product = { ...draft, id };
+    patchMenu((m) => ({
+      ...m,
+      categories: m.categories.map((c) =>
+        c.slug === categorySlug
+          ? { ...c, products: [...c.products, product] }
+          : c
+      ),
+    }));
+    setCreatingProduct(false);
+    setEditing({ categorySlug, productId: id });
+    setActiveSlug(categorySlug);
+    setStatus("Товар створено — збережіть зміни");
+    requestAnimationFrame(() => {
+      sectionRefs.current[categorySlug]?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
   };
 
   const handleSave = () => {
@@ -248,6 +275,13 @@ export function AdminPage() {
           <Link to="/" className="admin__btn admin__btn--ghost">
             На сайт
           </Link>
+          <button
+            type="button"
+            className="admin__btn"
+            onClick={() => setCreatingProduct(true)}
+          >
+            Додати товар
+          </button>
           <button type="button" className="admin__btn" onClick={handleSave}>
             Зберегти
           </button>
@@ -349,6 +383,18 @@ export function AdminPage() {
           ))}
         </main>
       </div>
+
+      {creatingProduct ? (
+        <AdminCreateProductModal
+          categories={menu.categories}
+          currency={menu.currency}
+          onClose={() => setCreatingProduct(false)}
+          onCreate={createProduct}
+          onAddCategory={addEmptyCategory}
+          onReadImage={readImageFile}
+          onError={setImportError}
+        />
+      ) : null}
 
       {editingContext ? (
         <AdminProductEditModal

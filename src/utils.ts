@@ -121,6 +121,16 @@ export function productImageUrl(
   return `https://picsum.photos/seed/menu-${product.id}/600/400`;
 }
 
+export function nextProductId(menu: MenuData): number {
+  let max = 0;
+  for (const category of menu.categories) {
+    for (const product of category.products) {
+      if (product.id > max) max = product.id;
+    }
+  }
+  return max + 1;
+}
+
 export function flattenProducts(menu: MenuData): Product[] {
   return menu.categories.flatMap((c) => c.products);
 }
