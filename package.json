@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "parse-menu": "node scripts/parse-menu.mjs",
-    "prebuild": "node scripts/parse-menu.mjs",
+    "scrape-menu": "node scripts/scrape-menu-ps.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
