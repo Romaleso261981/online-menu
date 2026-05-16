@@ -8,6 +8,7 @@ type Props = {
   currency: string;
   onClose: () => void;
   onCreate: (categorySlug: string, product: Product) => void;
+  onCreateCategory: (title: string) => string;
   onReadImage: (file: File) => Promise<string>;
   onError: (message: string) => void;
 };
@@ -17,6 +18,7 @@ export function AdminCreateProductModal({
   currency,
   onClose,
   onCreate,
+  onCreateCategory,
   onReadImage,
   onError,
 }: Props) {
@@ -106,6 +108,7 @@ export function AdminCreateProductModal({
             categories={categories}
             value={categorySlug}
             onChange={setCategorySlug}
+            onCreateCategory={onCreateCategory}
           />
 
           <label

@@ -12,6 +12,7 @@ type Props = {
   onUpdateProduct: (patch: Partial<Product>) => void;
   onUpdateCategory: (patch: Partial<Category>) => void;
   onMoveProduct: (toCategorySlug: string) => void;
+  onCreateCategory: (title: string) => string;
   onAddCategoryWithProduct: (title: string) => void;
   onAddEmptyCategory: (title: string) => void;
   onReadImage: (file: File) => Promise<string>;
@@ -27,6 +28,7 @@ export function AdminProductEditModal({
   onUpdateProduct,
   onUpdateCategory,
   onMoveProduct,
+  onCreateCategory,
   onAddCategoryWithProduct,
   onAddEmptyCategory,
   onReadImage,
@@ -73,6 +75,7 @@ export function AdminProductEditModal({
             categories={categories}
             value={category.slug}
             onChange={onMoveProduct}
+            onCreateCategory={onCreateCategory}
           />
           <p className="admin-edit-modal__hint">
             Після вибору іншої категорії товар переміститься одразу.
