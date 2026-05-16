@@ -390,7 +390,6 @@ export function AdminPage() {
           currency={menu.currency}
           onClose={() => setCreatingProduct(false)}
           onCreate={createProduct}
-          onAddCategory={addEmptyCategory}
           onReadImage={readImageFile}
           onError={setImportError}
         />

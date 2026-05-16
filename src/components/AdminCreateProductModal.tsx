@@ -8,7 +8,6 @@ type Props = {
   currency: string;
   onClose: () => void;
   onCreate: (categorySlug: string, product: Product) => void;
-  onAddCategory: (title: string) => string;
   onReadImage: (file: File) => Promise<string>;
   onError: (message: string) => void;
 };
@@ -18,7 +17,6 @@ export function AdminCreateProductModal({
   currency,
   onClose,
   onCreate,
-  onAddCategory,
   onReadImage,
   onError,
 }: Props) {
@@ -26,7 +24,6 @@ export function AdminCreateProductModal({
   const [categorySlug, setCategorySlug] = useState(
     () => categories[0]?.slug ?? ""
   );
-  const [newCategoryTitle, setNewCategoryTitle] = useState("");
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
   const [priceLabel, setPriceLabel] = useState(formatPrice(0, currency));
@@ -110,31 +107,6 @@ export function AdminCreateProductModal({
             value={categorySlug}
             onChange={setCategorySlug}
           />
-
-          <fieldset className="admin-edit-modal__new-category">
-            <legend>Або нова категорія</legend>
-            <label>
-              Назва нової категорії
-              <input
-                value={newCategoryTitle}
-                placeholder="Наприклад: Сезонне меню"
-                onChange={(e) => setNewCategoryTitle(e.target.value)}
-              />
-            </label>
-            <button
-              type="button"
-              className="admin__btn admin__btn--ghost"
-              onClick={() => {
-                const slug = onAddCategory(newCategoryTitle);
-                if (slug) {
-                  setCategorySlug(slug);
-                  setNewCategoryTitle("");
-                }
-              }}
-            >
-              Додати категорію і обрати її
-            </button>
-          </fieldset>
 
           <label
             htmlFor={imageInputId}
