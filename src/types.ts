@@ -4,11 +4,15 @@ export type Product = {
   price: number;
   priceLabel: string;
   description: string;
+  /** Власне зображення (URL або data URL) */
+  image?: string;
 };
 
 export type Category = {
   slug: string;
   title: string;
+  /** Зображення за замовчуванням для категорії */
+  image?: string;
   products: Product[];
 };
 

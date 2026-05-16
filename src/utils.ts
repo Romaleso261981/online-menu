@@ -14,6 +14,24 @@ export const PHILADELPHIA_IMAGE_URL =
 
 export const FIRM_ROLLS_IMAGE_URL = "/images/firmovi-roli.jpeg";
 
+export function slugifyCategoryTitle(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu, "-")
+    .replace(/^-|-$/g, "");
+}
+
+export function uniqueCategorySlug(
+  categories: { slug: string }[],
+  title: string
+): string {
+  const base = slugifyCategoryTitle(title) || "kategoriya";
+  if (!categories.some((c) => c.slug === base)) return base;
+  let n = 2;
+  while (categories.some((c) => c.slug === `${base}-${n}`)) n++;
+  return `${base}-${n}`;
+}
+
 export function formatPrice(amount: number, currency = "₴"): string {
   return `${amount.toLocaleString("uk-UA")} ${currency}`;
 }
@@ -80,9 +98,11 @@ export function hasCategoryImage(category: {
 }
 
 export function productImageUrl(
-  productId: number,
-  category?: { slug: string; title: string }
+  product: Pick<Product, "id" | "image">,
+  category?: Pick<Category, "slug" | "title" | "image">
 ): string {
+  if (product.image?.trim()) return product.image.trim();
+  if (category?.image?.trim()) return category.image.trim();
   if (category && isPizzaCategory(category)) {
     return PIZZA_IMAGE_URL;
   }
@@ -98,7 +118,7 @@ export function productImageUrl(
   if (category && isFirmRollsCategory(category)) {
     return FIRM_ROLLS_IMAGE_URL;
   }
-  return `https://picsum.photos/seed/menu-${productId}/600/400`;
+  return `https://picsum.photos/seed/menu-${product.id}/600/400`;
 }
 
 export function flattenProducts(menu: MenuData): Product[] {

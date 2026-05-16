@@ -17,7 +17,7 @@ export function ProductCard({ product, category, onOpen }: Props) {
       >
         <div className="product-card__media">
           <img
-            src={productImageUrl(product.id, category)}
+            src={productImageUrl(product, category)}
             alt=""
             loading="lazy"
             decoding="async"

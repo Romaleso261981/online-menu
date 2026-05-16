@@ -50,7 +50,7 @@ export function ProductModal({ product, category, onClose, onAdd }: Props) {
   if (!product) return null;
 
   const customImage = category ? hasCategoryImage(category) : false;
-  const imageSrc = productImageUrl(product.id, category ?? undefined);
+  const imageSrc = productImageUrl(product, category ?? undefined);
 
   return (
     <div
