@@ -174,7 +174,10 @@ export function MenuPage() {
         tableId={tableId}
         onClose={() => setCartOpen(false)}
         onQuantity={cart.setQuantity}
-        onClear={cart.clear}
+        onClear={() => {
+          cart.clear();
+          setCartOpen(false);
+        }}
       />
 
       <BackToTop raised={cart.count > 0} />
