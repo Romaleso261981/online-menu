@@ -1,5 +1,6 @@
 import type { Category, Product } from "../types";
-import { excerpt, formatPrice, productImageUrl } from "../utils";
+import { excerpt, formatPrice, productCardImageUrl, productImageUrl } from "../utils";
+import { ProductThumbnail } from "./ProductThumbnail";
 
 type Props = {
   product: Product;
@@ -16,11 +17,10 @@ export function ProductCard({ product, category, onOpen }: Props) {
         onClick={() => onOpen(product.id)}
       >
         <div className="product-card__media">
-          <img
-            src={productImageUrl(product, category)}
+          <ProductThumbnail
+            src={productCardImageUrl(product, category)}
+            fullSrc={productImageUrl(product, category)}
             alt=""
-            loading="lazy"
-            decoding="async"
           />
         </div>
         <div className="product-card__body">

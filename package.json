@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "parse-menu": "node scripts/parse-menu.mjs",
     "scrape-menu": "node scripts/scrape-menu-ps.mjs",
+    "generate-thumbs": "node scripts/generate-thumbs.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -21,6 +22,7 @@
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "@vitejs/plugin-react": "^4.4.1",
+    "sharp": "^0.34.5",
     "typescript": "~5.8.3",
     "vite": "^6.3.5"
   }

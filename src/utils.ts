@@ -54,6 +54,15 @@ export const PHILADELPHIA_IMAGE_URL =
 
 export const FIRM_ROLLS_IMAGE_URL = "/images/firmovi-roli.jpeg";
 
+export const MENU_PLACEHOLDER_URL = "/images/placeholder.svg";
+
+/** WebP preview for cards (see scripts/generate-thumbs.mjs). */
+export function productThumbnailUrl(fullUrl: string): string | null {
+  if (!fullUrl.startsWith("/images/")) return null;
+  if (fullUrl.endsWith(".svg")) return null;
+  return fullUrl.replace(/\.[^./]+$/i, "-thumb.webp");
+}
+
 export function slugifyCategoryTitle(title: string): string {
   return title
     .toLowerCase()
@@ -159,6 +168,15 @@ export function productImageUrl(
     return FIRM_ROLLS_IMAGE_URL;
   }
   return `https://picsum.photos/seed/menu-${product.id}/600/400`;
+}
+
+/** Smaller image for list cards; modal/lightbox should use productImageUrl. */
+export function productCardImageUrl(
+  product: Pick<Product, "id" | "image">,
+  category?: Pick<Category, "slug" | "title" | "image">
+): string {
+  const full = productImageUrl(product, category);
+  return productThumbnailUrl(full) ?? full;
 }
 
 export function nextProductId(menu: MenuData): number {

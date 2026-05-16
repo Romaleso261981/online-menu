@@ -162,6 +162,10 @@ async function main() {
     `Done. Images: ${downloaded} new, ${skipped} already existed, ${failed} failed.`
   );
   console.log(`Wrote ${join(publicDir, "menu.json")}`);
+
+  console.log("Generating thumbnails…");
+  const { execSync } = await import("child_process");
+  execSync("node scripts/generate-thumbs.mjs", { cwd: root, stdio: "inherit" });
 }
 
 main().catch((e) => {
