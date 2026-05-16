@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import type { CartLine } from "../types";
 import { formatPrice } from "../utils";
 
@@ -18,6 +19,20 @@ export function CartDrawer({
   onQuantity,
   onClear,
 }: Props) {
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [open, onClose]);
+
   if (!open) return null;
 
   return (
@@ -26,14 +41,20 @@ export function CartDrawer({
       <div className="cart__panel">
         <header className="cart__header">
           <h2>Кошик</h2>
-          <button type="button" className="cart__close" onClick={onClose}>
+          <button
+            type="button"
+            className="cart__close"
+            onClick={onClose}
+            aria-label="Закрити"
+          >
             ×
           </button>
         </header>
-        {lines.length === 0 ? (
-          <p className="cart__empty">Додайте страви з меню</p>
-        ) : (
-          <ul className="cart__list">
+        <div className="cart__body">
+          {lines.length === 0 ? (
+            <p className="cart__empty">Додайте страви з меню</p>
+          ) : (
+            <ul className="cart__list">
             {lines.map((line) => (
               <li key={line.productId} className="cart__line">
                 <div>
@@ -59,8 +80,9 @@ export function CartDrawer({
                 </div>
               </li>
             ))}
-          </ul>
-        )}
+            </ul>
+          )}
+        </div>
         <footer className="cart__footer">
           <div className="cart__total">
             <span>Разом</span>
