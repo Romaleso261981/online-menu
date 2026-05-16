@@ -12,6 +12,17 @@
       href="%BASE_URL%apple-touch-icon.png"
     />
     <link rel="apple-touch-icon" href="%BASE_URL%apple-touch-icon.png" />
+    <script>
+      (function () {
+        try {
+          var s = localStorage.getItem("online-menu-theme");
+          var dark =
+            s === "dark" ||
+            (!s && window.matchMedia("(prefers-color-scheme: dark)").matches);
+          if (dark) document.documentElement.dataset.theme = "dark";
+        } catch (e) {}
+      })();
+    </script>
     <title>Онлайн меню</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

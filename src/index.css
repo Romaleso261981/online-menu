@@ -15,14 +15,44 @@
   --accent-soft: #e2ebe4;
   --border: #e8ecef;
   --shadow: 0 4px 28px rgba(20, 40, 30, 0.08);
+  --on-accent: #ffffff;
+  --category-bar-bg: #111111;
+  --category-bar-fg: #ffffff;
+  --sticky-bar-bg: rgba(255, 255, 255, 0.94);
+  --elevated-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
   --radius: 16px;
   --safe-bottom: env(safe-area-inset-bottom, 0px);
+  color-scheme: light;
   font-family: "Manrope", system-ui, sans-serif;
   line-height: 1.45;
   color: var(--text);
   background: var(--page-bg);
   background-color: var(--bg);
   -webkit-font-smoothing: antialiased;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0f1412;
+  --page-bg: linear-gradient(180deg, #0c100e 0%, #121a17 50%, #0f1412 100%);
+  --surface: #1a2220;
+  --text: #eef2ef;
+  --muted: #9aa8a0;
+  --accent: #52b788;
+  --accent-dark: #95d5b2;
+  --accent-soft: #243329;
+  --border: #2d3834;
+  --shadow: 0 4px 28px rgba(0, 0, 0, 0.45);
+  --on-accent: #0f1412;
+  --category-bar-bg: #eef2ef;
+  --category-bar-fg: #111111;
+  --sticky-bar-bg: rgba(26, 34, 32, 0.94);
+  --elevated-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+}
+
+html[data-theme="dark"] .site-topbar__logo,
+html[data-theme="dark"] .site-brand__logo {
+  filter: brightness(0) invert(1);
 }
 
 html {
