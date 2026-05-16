@@ -244,6 +244,53 @@
   min-height: 100px;
 }
 
+.admin-edit-modal__category-picker h3 {
+  margin: 0 0 6px;
+  font-size: 1rem;
+}
+
+.admin-edit-modal__category-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 200px;
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg);
+}
+
+.admin-edit-modal__category-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.admin-edit-modal__category-list li:last-child .admin-edit-modal__category-item {
+  border-bottom: 0;
+}
+
+.admin-edit-modal__category-item span {
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.admin-edit-modal__category-item.is-active {
+  background: var(--accent-soft);
+  font-weight: 700;
+  color: var(--accent-dark);
+}
+
 .admin-edit-modal__new-category {
   margin: 0 0 16px;
   padding: 12px;

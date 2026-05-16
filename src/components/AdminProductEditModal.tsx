@@ -67,19 +67,32 @@ export function AdminProductEditModal({
           <h2>Редагування</h2>
           <p className="admin-edit-modal__hint">Товар ID {product.id}</p>
 
-          <label>
-            Категорія товару
-            <select
-              value={category.slug}
-              onChange={(e) => onMoveProduct(e.target.value)}
-            >
+          <section className="admin-edit-modal__category-picker">
+            <h3>Категорія товару</h3>
+            <p className="admin-edit-modal__hint">
+              Оберіть існуючу категорію — товар переміститься одразу.
+            </p>
+            <ul className="admin-edit-modal__category-list" role="listbox">
               {categories.map((c) => (
-                <option key={c.slug} value={c.slug}>
-                  {c.title}
-                </option>
+                <li key={c.slug}>
+                  <button
+                    type="button"
+                    role="option"
+                    aria-selected={c.slug === category.slug}
+                    className={
+                      c.slug === category.slug
+                        ? "admin-edit-modal__category-item is-active"
+                        : "admin-edit-modal__category-item"
+                    }
+                    onClick={() => onMoveProduct(c.slug)}
+                  >
+                    {c.title}
+                    <span>{c.products.length} поз.</span>
+                  </button>
+                </li>
               ))}
-            </select>
-          </label>
+            </ul>
+          </section>
 
           <fieldset className="admin-edit-modal__new-category">
             <legend>Нова категорія</legend>
