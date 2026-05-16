@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { CartDrawer } from "../components/CartDrawer";
-import { CategoryNav } from "../components/CategoryNav";
+import { CategoryPicker } from "../components/CategoryPicker";
 import { SiteHeader } from "../components/SiteHeader";
 import { ProductCard } from "../components/ProductCard";
 import { ProductModal } from "../components/ProductModal";
@@ -19,6 +19,7 @@ export function MenuPage() {
   const [activeSlug, setActiveSlug] = useState("");
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [cartOpen, setCartOpen] = useState(false);
+  const [categoryPickerOpen, setCategoryPickerOpen] = useState(false);
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
   const cart = useCart();
 
@@ -108,17 +109,9 @@ export function MenuPage() {
   }
 
   return (
-    <div className="app">
+    <div className="app app--with-category-bar">
       <div className="site-shell">
         <SiteHeader title={menu.restaurantName} />
-
-        <div className="sticky-bar">
-          <CategoryNav
-            categories={menu.categories}
-            activeSlug={activeSlug}
-            onSelect={scrollToCategory}
-          />
-        </div>
 
         <main className="menu-sections">
           {menu.categories.map((category) => (
@@ -151,6 +144,15 @@ export function MenuPage() {
         category={selectedCategory}
         onClose={closeProduct}
         onAdd={handleAdd}
+      />
+
+      <CategoryPicker
+        categories={menu.categories}
+        activeSlug={activeSlug}
+        open={categoryPickerOpen}
+        onOpen={() => setCategoryPickerOpen(true)}
+        onClose={() => setCategoryPickerOpen(false)}
+        onSelect={scrollToCategory}
       />
 
       <CartDrawer
