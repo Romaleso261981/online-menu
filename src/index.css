@@ -5,21 +5,28 @@
 }
 
 :root {
-  --bg: #f4f1eb;
+  --bg: #eceef2;
+  --bg-gradient: linear-gradient(
+    165deg,
+    #dfe2e8 0%,
+    #f0f1f4 42%,
+    #e8eaee 100%
+  );
   --surface: #ffffff;
   --text: #1c2420;
-  --muted: #5c6b64;
+  --muted: #5c6570;
   --accent: #2d6a4f;
   --accent-dark: #1b4332;
-  --accent-soft: #d8f3dc;
-  --border: #e2ddd4;
-  --shadow: 0 8px 32px rgba(27, 67, 50, 0.12);
+  --accent-soft: #e2ebe4;
+  --border: #d5d9e0;
+  --shadow: 0 8px 32px rgba(30, 35, 45, 0.1);
   --radius: 16px;
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   font-family: "Manrope", system-ui, sans-serif;
   line-height: 1.45;
   color: var(--text);
-  background: var(--bg);
+  background: var(--bg-gradient);
+  background-color: var(--bg);
   -webkit-font-smoothing: antialiased;
 }
 

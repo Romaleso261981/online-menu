@@ -7,7 +7,12 @@ import { ProductModal } from "../components/ProductModal";
 import { useMenu } from "../context/MenuContext";
 import { useCart } from "../hooks/useCart";
 import type { Product } from "../types";
-import { findCategoryForProduct, findProduct, parseProductHash } from "../utils";
+import {
+  findCategoryForProduct,
+  findProduct,
+  parseProductHash,
+  SITE_LOGO_URL,
+} from "../utils";
 import "../App.css";
 
 export function MenuPage() {
@@ -107,6 +112,11 @@ export function MenuPage() {
     <div className="app">
       <header className="hero">
         <div className="hero__inner">
+          <img
+            src={SITE_LOGO_URL}
+            alt={menu.restaurantName}
+            className="hero__logo"
+          />
           <p className="hero__badge">Доставка · онлайн-меню</p>
           <h1>{menu.restaurantName}</h1>
           <p className="hero__sub">

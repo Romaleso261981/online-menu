@@ -1,5 +1,8 @@
 import type { Category, MenuData, Product } from "./types";
 
+export const SITE_LOGO_URL =
+  "/images/logo/5cad0bc8-8bd4-429e-a7b6-4074d5f5c12b_image.webp";
+
 export const PIZZA_IMAGE_URL =
   "/images/607ed818-b82d-4252-bb46-1dd1ce303ee6_image.webp";
 
