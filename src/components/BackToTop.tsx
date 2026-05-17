@@ -23,12 +23,11 @@ export function BackToTop({ raised }: Props) {
       type="button"
       className={`back-to-top${raised ? " back-to-top--raised" : ""}`}
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      aria-label="Back to top"
+      aria-label="Нагору"
     >
       <span className="back-to-top__icon" aria-hidden>
         ↑
       </span>
-      <span className="back-to-top__label">Back to Top</span>
     </button>
   );
 }
